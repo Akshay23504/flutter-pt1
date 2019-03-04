@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
+import 'package:http/http.dart' as http;
+import 'dart:async';
 
 void main() => runApp(MyApp());
 
@@ -100,7 +102,9 @@ class RandomWordsState extends State<RandomWords> {
 }
 
 class CustomTabController extends State<RandomWords> {
-  RandomWordsState rws = new RandomWordsState();
+  RandomWordsState _rws = new RandomWordsState();
+  String _dynamicText = "Dynamic Text";
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -117,19 +121,21 @@ class CustomTabController extends State<RandomWords> {
         ),
         body: TabBarView(
             children: [
-              rws._buildSuggestions(),
+              _rws._buildSuggestions(),
               Scaffold(
                 body: Center(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       RaisedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          _makeAPICall();
+                        },
                         textColor: Colors.white,
                         child: Text('REST Call'),
                         color: Colors.blue,
                       ),
-                      Text('Dynamic Text'),
+                      Text('$_dynamicText'),
                     ],
                   ),
                 ),
@@ -138,6 +144,27 @@ class CustomTabController extends State<RandomWords> {
         ),
       ),
     );
+  }
+
+  void _makeAPICall() {
+    setState(() {
+      FutureBuilder<String>(
+        future: _getString(),
+        builder: (context, snapshot) {
+          if(snapshot.connectionState == ConnectionState.done) {
+            return Text('');
+          } else {
+            return CircularProgressIndicator();
+          }
+        }
+      );
+    });
+  }
+
+  Future<String> _getString() async {
+    final response = await http.get('http://10.0.2.2:8000/randomLetters/');
+    _dynamicText = response.body;
+    return response.body;
   }
 
 }

@@ -118,7 +118,22 @@ class CustomTabController extends State<RandomWords> {
         body: TabBarView(
             children: [
               rws._buildSuggestions(),
-              Icon(Icons.directions_transit),
+              Scaffold(
+                body: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      RaisedButton(
+                        onPressed: () {},
+                        textColor: Colors.white,
+                        child: Text('REST Call'),
+                        color: Colors.blue,
+                      ),
+                      Text('Dynamic Text'),
+                    ],
+                  ),
+                ),
+              ),
             ],
         ),
       ),

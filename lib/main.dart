@@ -100,6 +100,7 @@ class RandomWordsState extends State<RandomWords> {
 }
 
 class CustomTabController extends State<RandomWords> {
+  RandomWordsState rws = new RandomWordsState();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -116,7 +117,7 @@ class CustomTabController extends State<RandomWords> {
         ),
         body: TabBarView(
             children: [
-              Icon(Icons.directions_car),
+              rws._buildSuggestions(),
               Icon(Icons.directions_transit),
             ],
         ),
@@ -128,6 +129,6 @@ class CustomTabController extends State<RandomWords> {
 
 class RandomWords extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => new RandomWordsState();
-//  State<StatefulWidget> createState() => new CustomTabController();
+//  State<StatefulWidget> createState() => new RandomWordsState();
+  State<StatefulWidget> createState() => new CustomTabController();
 }

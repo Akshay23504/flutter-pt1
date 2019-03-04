@@ -26,9 +26,10 @@ class RandomWordsState extends State<RandomWords> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Name Generator'),
-        actions: <Widget>[
-          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved)
-        ],
+          // Uncoment actions for saved suggestions. As simple as that!
+//        actions: <Widget>[
+//          new IconButton(icon: const Icon(Icons.list), onPressed: _pushSaved)
+//        ],
       ),
       body: _buildSuggestions(),
     );
@@ -98,7 +99,35 @@ class RandomWordsState extends State<RandomWords> {
   }
 }
 
+class CustomTabController extends State<RandomWords> {
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTabController(
+      length: 2,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Tabs'),
+          bottom: TabBar(
+              tabs: [
+                Text('Random Names'),
+                Text('REST'),
+              ],
+          ),
+        ),
+        body: TabBarView(
+            children: [
+              Icon(Icons.directions_car),
+              Icon(Icons.directions_transit),
+            ],
+        ),
+      ),
+    );
+  }
+
+}
+
 class RandomWords extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => new RandomWordsState();
+//  State<StatefulWidget> createState() => new CustomTabController();
 }
